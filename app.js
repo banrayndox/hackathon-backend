@@ -13,7 +13,10 @@ import generalRoutes from './routes/generalRoutes.js';
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173', // আপনার ফ্রন্টএন্ড URL
+  credentials: true,
+}));
 app.use(express.json());
 
 // Routes

@@ -13,10 +13,15 @@ import generalRoutes from './routes/generalRoutes.js';
 
 const app = express();
 
-app.use(cors({
-  origin: 'http://localhost:5173', // আপনার ফ্রন্টএন্ড URL
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://hackathon-backend-655q.onrender.com/"
+    ],
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 // Routes

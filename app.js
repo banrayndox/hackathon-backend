@@ -12,16 +12,27 @@ import participantRoutes from './routes/participantRoutes.js';
 import generalRoutes from './routes/generalRoutes.js';
 
 const app = express();
+const allowedOrigins = [
+  'https://diuhackathon.vercel.app', 
+  'http://localhost:5173', // আপনার লোকালহোস্ট পোর্ট (Vite এর জন্য সাধারণত 5173)
+  'http://localhost:3000'
+];
 
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "https://hackathon-backend-655q.onrender.com/"
-    ],
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: function (origin, callback) {
+    // allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true, // যদি কুকি বা অথ হেডার পাস করতে চান
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 
 // Routes
